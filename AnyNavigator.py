@@ -10,8 +10,7 @@ class AnyNavigateCommand(sublime_plugin.TextCommand):
 
     def navigate(self, pattern):
         regions = self.view.find_all(pattern)
-        regions = map(lambda _: self.view.line(_), regions)
-        items   = map(lambda _: self.view.substr(_), regions)
+        items   = map(lambda _: self.view.substr(self.view.line(_)), regions)
 
         def on_done(index):
             if index >= 0:
