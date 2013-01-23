@@ -3,10 +3,13 @@ import re
 
 class AnyNavigateCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        def on_done(result):
-            self.navigate(result)
-
-        self.view.window().show_input_panel('pattern', '', on_done, None, None)
+        region = self.view.sel()[0]
+        if not region.empty():
+            self.navigate(self.view.substr(region))
+        else:
+            def on_done(result):
+                self.navigate(result)
+            self.view.window().show_input_panel('pattern', '', on_done, None, None)
 
     def navigate(self, pattern):
         regions = self.view.find_all(pattern)
